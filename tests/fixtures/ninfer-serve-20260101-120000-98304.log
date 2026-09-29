@@ -1,0 +1,4 @@
+[2026-01-01 11:59:40.000] [info] ninfer-serve: loading model...
+[2026-01-01 11:59:40.100] [info] ninfer-serve: load        weights                      0.00%           0 B /      11.86 GiB     0.000 s
+[2026-01-01 11:59:42.400] [info] ninfer-serve: load        weights                    100.00%     11.86 GiB /      11.86 GiB     2.300 s
+[2026-01-01 11:59:44.500] [error] ninfer-serve: requested Engine runtime reservation requires 2190164224 bytes, but only 1970450432 bytes are available for runtime capacity
