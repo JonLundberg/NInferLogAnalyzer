@@ -200,6 +200,19 @@ class Cli(unittest.TestCase):
             self.assertIn("Context: 65,536", out)
             self.assertIn("Attempt at 98,304 tokens", out)
 
+    def test_directory_prefers_jsonl_for_same_launch(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base = os.path.join(tmp, "ninfer-serve-20260101-130000-131072")
+            shutil.copy(TEXT_LOG, base + ".log")
+            shutil.copy(JSONL_LOG, base + ".requests.jsonl")
+            code, out, _ = run_cli(tmp, "--json")
+            data = json.loads(out)
+            self.assertEqual(len(data["sessions"]), 1)
+            self.assertEqual(data["sessions"][0]["kind"], "jsonl")
+            self.assertEqual(data["summary"]["requests_done"], 2)
+            # Startup fields missing from the JSONL log are filled from the text log.
+            self.assertEqual(data["sessions"][0]["endpoint"], "http://127.0.0.1:8080/v1")
+
     def test_compare(self):
         code, out, _ = run_cli("--compare", TEXT_LOG, JSONL_LOG)
         self.assertEqual(code, 0)
